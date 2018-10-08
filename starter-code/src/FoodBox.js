@@ -2,45 +2,59 @@ import React, { Component } from 'react';
 import './App.css';
 import 'bulma/css/bulma.css';
 import foods from './foods.json'
+import AddNewFood from './AddNewFood';
 
-const FoodBox = (props) => {
+export default class FoodBox extends Component { /* export default function({calories, image, name, quantity}) */
+    constructor(props){
+        super(props);
+        this.state = {
+            name: props.name,
+            quantity: 1,
+            calories: props.calories,
+            image: props.image
+        }
+    
+    }
 
-    return (
-        <div className="box">
-            <article className="media">
-                <div className="media-left">
-                    <figure className="image is-64x64">
-                        <img src={props.image} />
-                    </figure>
-                </div>
-                <div className="media-content">
-                    <div className="content">
-                        <p>
-                            <strong>{props.name}</strong> <br />
-                            <small>{props.calories}</small>
-                        </p>
+    handleFormSubmit(){
+        let {name, quantity, calories} = this.state;
+        calories = calories * quantity
+    }
+
+    render(){        
+        return (     
+                <div className="box">
+                <article className="media">
+                    <div className="media-left">
+                        <figure className="image is-64x64">
+                            <img src={this.state.image} />
+                        </figure>
                     </div>
-                </div>
-                <div className="media-right">
-                    <div className="field has-addons">
-                        <div className="control">
-                            <input
-                                className="input"
-                                type="number"
-                                value="1"
-                            />
-                        </div>
-                        <div className="control">
-                            <button className="button is-info">
-                                +
-          </button>
+                    <div className="media-content">
+                        <div className="content">
+                            <p>
+                                <strong>{this.state.name}</strong> <br />
+                                <small>{this.state.calories}</small>
+                            </p>
                         </div>
                     </div>
-                </div>
-            </article>
-        </div>
-
-    )
+                    <div className="media-right">
+                        <div className="field has-addons">
+                            <div className="control">
+                                <input className="input" type="number" value={this.state.quantity} onChange={e => this.setSate({quantity: e.target.value})} />
+                            </div>
+                            <div className="control">
+                                <button className="button is-info" onClick={this.handleFormSubmit.bind(this)}>
+                                    +
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        
+        )
+    }
 }
 
-export default FoodBox
+
